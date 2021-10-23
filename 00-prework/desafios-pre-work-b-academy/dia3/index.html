@@ -7,11 +7,45 @@
     <title>Dia 3</title>
   </head>
   <body>
-    <div class="app">
+    <div class="app" style="display: flex; justify-content: space-between">
       <form>
-        <label for="name">Nome: </label>
-        <input id="name" name="name" />
+        <label>
+          Imagem (URL):
+          <input id="img" name="img" type="url" />
+        </label>
+
+        <label>
+          Marca / Modelo:
+          <input id="model" name="model" type="text" />
+        </label>
+
+        <label>
+          Ano:
+          <input id="year" name="year" type="number" />
+        </label>
+
+        <label>
+          Placa:
+          <input id="plate" name="plate" type="text" />
+        </label>
+
+        <label>
+          Cor:
+          <input id="color" name="color" type="color" />
+        </label>
+
+        <button type="submit">Salvar</button>
       </form>
+      <table style="flex: 1 1">
+        <thead>
+          <th>Imagem</th>
+          <th>Modelo</th>
+          <th>Ano</th>
+          <th>Placa</th>
+          <th>Cor</th>
+        </thead>
+        <tbody></tbody>
+      </table>
     </div>
     <script type="module" src="/src/main.js"></script>
   </body>

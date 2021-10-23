@@ -6,3 +6,18 @@
   color: #2c3e50;
   margin-top: 60px;
 }
+
+input {
+  display: block;
+}
+
+tr {
+  border-bottom: 2px solid rgb(23, 223, 33);
+}
+
+.car-image {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 400px;
+}
