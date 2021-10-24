@@ -7,7 +7,8 @@ const form = document.querySelector<HTMLFormElement>('[data-js="cars-form"]');
 const table = document.querySelector<HTMLTableElement>('[data-js="table"]');
 
 const getFormElement = (event: Event) => (elementName: string) => {
-  return event.target?.elements[elementName];
+  const target = event.target as HTMLFormElement;
+  return target.elements.namedItem(elementName) as HTMLInputElement;
 };
 
 const elementTypes = {
@@ -23,6 +24,7 @@ function createImage(data: Image) {
   img.alt = data.alt;
   img.width = 100;
   td.appendChild(img);
+  img.focus();
   return td;
 }
 
@@ -49,7 +51,7 @@ form?.addEventListener("submit", async (e) => {
   const data: Car = {
     image: getElement("image").value,
     brandModel: getElement("brand-model").value,
-    year: getElement("year").value,
+    year: getElement("year").valueAsNumber,
     plate: getElement("plate").value,
     color: getElement("color").value,
   };
@@ -68,8 +70,10 @@ form?.addEventListener("submit", async (e) => {
 
   createTableRow(data);
 
-  e?.target?.reset();
-  image.focus();
+  if (e && e.target) {
+    const target = e.target as HTMLFormElement;
+    target.reset();
+  }
 });
 
 function createTableRow(data: Car) {
@@ -103,8 +107,8 @@ function createTableRow(data: Car) {
 }
 
 async function handleDelete(e: Event) {
-  const button = e.target;
-  const plate = button?.dataset.plate;
+  const button = e.target as HTMLButtonElement;
+  const plate = button.dataset.plate;
 
   const result = await del(url, { plate });
 
