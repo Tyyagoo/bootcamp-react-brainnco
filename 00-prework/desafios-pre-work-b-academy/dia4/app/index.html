@@ -7,6 +7,63 @@
     <title>Dia 4</title>
   </head>
   <body>
+    <main>
+      <div class="tabs">
+        <button class="tabheader" onclick="switchTab('list')">
+          Lista de carros
+        </button>
+        <button class="tabheader" onclick="switchTab('create')">
+          Adicionar novo carro
+        </button>
+      </div>
+      <div class="content">
+        <section id="list">
+          <h3>Carros</h3>
+          <table style="flex: 1 1">
+            <thead>
+              <th>Imagem</th>
+              <th>Modelo</th>
+              <th>Ano</th>
+              <th>Placa</th>
+              <th>Cor</th>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </section>
+
+        <section id="create">
+          <h3>Adicionar</h3>
+          <form>
+            <label>
+              Imagem (URL):
+              <input id="image" name="image" type="url" />
+            </label>
+
+            <label>
+              Marca / Modelo:
+              <input id="brandModel" name="brandModel" type="text" />
+            </label>
+
+            <label>
+              Ano:
+              <input id="year" name="year" type="number" />
+            </label>
+
+            <label>
+              Placa:
+              <input id="plate" name="plate" type="text" />
+            </label>
+
+            <label>
+              Cor:
+              <input id="color" name="color" type="color" />
+            </label>
+
+            <button type="submit">Salvar</button>
+          </form>
+        </section>
+      </div>
+    </main>
     <script type="module" src="/main.js"></script>
   </body>
 </html>
