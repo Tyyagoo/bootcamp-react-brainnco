@@ -1,20 +1,26 @@
 import "./App.css";
 
-function Title({ name }) {
+function Title({ name, children }) {
   return (
-    <>
-      <h1>Hello</h1>
-      <h2 className={name.toLowerCase()}>{name}!</h2>
-    </>
+    <div>
+      <h1>
+        Hello, <span className={name.toLowerCase()}>{name}!</span>
+      </h1>
+      {children}
+    </div>
   );
 }
 
 function App() {
   return (
     <div className="App">
-      <Title name="React" />
-      <Title name="Angular" />
-      <Title name="Vue" />
+      <Title name="React">It's me!</Title>
+      <Title name="Angular">Come to the red side of the force!</Title>
+      <Title name="Vue">
+        <span style={{ border: "1px solid green", borderRadius: "50%" }}>
+          🌲
+        </span>
+      </Title>
     </div>
   );
 }
