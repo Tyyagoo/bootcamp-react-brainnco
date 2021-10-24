@@ -1,5 +1,14 @@
 import "./App.css";
 
+const frameworks = ["Vue", "Angular", "React"];
+const message = {
+  react: () => "It's me!",
+  angular: () => "Come to the red side of the force!",
+  vue: () => (
+    <span style={{ border: "1px solid green", borderRadius: "50%" }}>🌲</span>
+  ),
+};
+
 function Title({ name, children }) {
   return (
     <div>
@@ -14,13 +23,11 @@ function Title({ name, children }) {
 function App() {
   return (
     <div className="App">
-      <Title name="React">It's me!</Title>
-      <Title name="Angular">Come to the red side of the force!</Title>
-      <Title name="Vue">
-        <span style={{ border: "1px solid green", borderRadius: "50%" }}>
-          🌲
-        </span>
-      </Title>
+      {frameworks.map((fw) => (
+        <Title key={fw} name={fw}>
+          {message[fw.toLowerCase()]()}
+        </Title>
+      ))}
     </div>
   );
 }
