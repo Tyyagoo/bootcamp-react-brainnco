@@ -1,5 +1,5 @@
-function Sidebar() {
-  return <section>Sidebar</section>;
+function Sidebar({ children }) {
+  return <section>{children}</section>;
 }
 
 export default Sidebar;

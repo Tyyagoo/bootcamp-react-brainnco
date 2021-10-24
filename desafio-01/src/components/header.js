@@ -1,5 +1,5 @@
-function Header() {
-  return <header>Header</header>;
+function Header({ children }) {
+  return <header>{children}</header>;
 }
 
 export default Header;
