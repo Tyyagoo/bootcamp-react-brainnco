@@ -36,3 +36,15 @@
     transform: rotate(360deg);
   }
 }
+
+.react {
+  color: rgb(90, 90, 216);
+}
+
+.angular {
+  color: rgb(216, 94, 90);
+}
+
+.vue {
+  color: rgb(87, 197, 87);
+}

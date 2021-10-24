@@ -1,11 +1,10 @@
-import logo from "./logo.svg";
 import "./App.css";
 
-function Title() {
+function Title({ name }) {
   return (
     <>
       <h1>Hello</h1>
-      <h2>React!</h2>
+      <h2 className={name.toLowerCase()}>{name}!</h2>
     </>
   );
 }
@@ -13,7 +12,9 @@ function Title() {
 function App() {
   return (
     <div className="App">
-      <Title />
+      <Title name="React" />
+      <Title name="Angular" />
+      <Title name="Vue" />
     </div>
   );
 }
