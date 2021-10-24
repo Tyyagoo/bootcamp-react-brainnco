@@ -8,6 +8,7 @@ import Footer from "./components/footer";
 
 import Title from "./components/title";
 import Button from "./components/button";
+import { useState } from "react";
 
 const links = [
   {
@@ -116,6 +117,8 @@ const articles = [
 ];
 
 function App() {
+  const [article, setArticle] = useState(articles[0]);
+
   return (
     <Layout>
       <Header>
@@ -130,8 +133,8 @@ function App() {
       </Menu>
       <Sidebar articles={articles} />
       <Content>
-        <Title>None</Title>
-
+        <Title>{article.title}</Title>
+        {article.content()}
         <Button kind="primary">Like</Button>
         <Button kind="secondary">Do something boring.</Button>
       </Content>
