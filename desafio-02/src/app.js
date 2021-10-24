@@ -45,19 +45,21 @@ const articles = [
     id: "ndv9lV4EWOP416",
     title: "Lorem Ipsum",
     content: () => (
-      <p>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-        tempor incididunt ut labore et dolore magna aliqua. Morbi quis commodo
-        odio aenean sed adipiscing diam. Vitae congue eu consequat ac. Quam
-        lacus suspendisse faucibus interdum posuere lorem. Volutpat diam ut
-        venenatis tellus in metus. Magna fringilla urna porttitor rhoncus. Ac
-        felis donec et odio pellentesque diam volutpat. Commodo sed egestas
-        egestas fringilla phasellus faucibus scelerisque eleifend donec. Sit
-        amet volutpat consequat mauris nunc. Condimentum lacinia quis vel eros
-        donec. Pharetra pharetra massa massa ultricies mi. Massa eget egestas
-        purus viverra accumsan in. Imperdiet sed euismod nisi porta lorem mollis
-        aliquam. Laoreet suspendisse interdum consectetur libero id faucibus
-        nisl tincidunt eget.
+      <>
+        <p>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+          eiusmod tempor incididunt ut labore et dolore magna aliqua. Morbi quis
+          commodo odio aenean sed adipiscing diam. Vitae congue eu consequat ac.
+          Quam lacus suspendisse faucibus interdum posuere lorem. Volutpat diam
+          ut venenatis tellus in metus. Magna fringilla urna porttitor rhoncus.
+          Ac felis donec et odio pellentesque diam volutpat. Commodo sed egestas
+          egestas fringilla phasellus faucibus scelerisque eleifend donec. Sit
+          amet volutpat consequat mauris nunc. Condimentum lacinia quis vel eros
+          donec. Pharetra pharetra massa massa ultricies mi. Massa eget egestas
+          purus viverra accumsan in. Imperdiet sed euismod nisi porta lorem
+          mollis aliquam. Laoreet suspendisse interdum consectetur libero id
+          faucibus nisl tincidunt eget.
+        </p>
         <p>
           In pellentesque massa placerat duis ultricies lacus sed turpis
           tincidunt. Amet nisl suscipit adipiscing bibendum. Morbi blandit
@@ -90,7 +92,7 @@ const articles = [
           velit egestas dui. Leo a diam sollicitudin tempor id eu nisl. Praesent
           semper feugiat nibh sed pulvinar proin gravida.
         </p>
-      </p>
+      </>
     ),
   },
   {
@@ -119,6 +121,13 @@ const articles = [
 function App() {
   const [article, setArticle] = useState(articles[0]);
 
+  function changeArticle(id) {
+    const desiredArticle = articles.filter((a) => a.id === id);
+    if (desiredArticle.length) {
+      setArticle(desiredArticle[0]);
+    }
+  }
+
   return (
     <Layout>
       <Header>
@@ -131,7 +140,7 @@ function App() {
           </a>
         ))}
       </Menu>
-      <Sidebar articles={articles} />
+      <Sidebar articles={articles} changeArticle={changeArticle} />
       <Content>
         <Title>{article.title}</Title>
         {article.content()}

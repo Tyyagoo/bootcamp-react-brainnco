@@ -1,10 +1,14 @@
-function Sidebar({ articles }) {
+function Sidebar({ articles, changeArticle }) {
   return (
     <section>
       {articles.map((article) => (
-        <a key={article.id} href="/">
+        <button
+          key={article.id}
+          href="/"
+          onClick={() => changeArticle(article.id)}
+        >
           {article.title}
-        </a>
+        </button>
       ))}
     </section>
   );
