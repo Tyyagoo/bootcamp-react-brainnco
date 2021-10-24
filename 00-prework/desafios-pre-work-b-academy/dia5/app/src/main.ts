@@ -1,12 +1,13 @@
 import "./style.css";
 import { get, post, del } from "./http";
+import { Car, Image } from "./types";
 
 const url = "http://localhost:3333/cars";
-const form = document.querySelector('[data-js="cars-form"]');
-const table = document.querySelector('[data-js="table"]');
+const form = document.querySelector<HTMLFormElement>('[data-js="cars-form"]');
+const table = document.querySelector<HTMLTableElement>('[data-js="table"]');
 
-const getFormElement = (event) => (elementName) => {
-  return event.target.elements[elementName];
+const getFormElement = (event: Event) => (elementName: string) => {
+  return event.target?.elements[elementName];
 };
 
 const elementTypes = {
@@ -15,7 +16,7 @@ const elementTypes = {
   color: createColor,
 };
 
-function createImage(data) {
+function createImage(data: Image) {
   const td = document.createElement("td");
   const img = document.createElement("img");
   img.src = data.src;
@@ -25,13 +26,13 @@ function createImage(data) {
   return td;
 }
 
-function createText(value) {
+function createText(value: string) {
   const td = document.createElement("td");
   td.textContent = value;
   return td;
 }
 
-function createColor(value) {
+function createColor(value: string) {
   const td = document.createElement("td");
   const div = document.createElement("div");
   div.style.width = "100px";
@@ -41,11 +42,11 @@ function createColor(value) {
   return td;
 }
 
-form.addEventListener("submit", async (e) => {
+form?.addEventListener("submit", async (e) => {
   e.preventDefault();
   const getElement = getFormElement(e);
 
-  const data = {
+  const data: Car = {
     image: getElement("image").value,
     brandModel: getElement("brand-model").value,
     year: getElement("year").value,
@@ -62,16 +63,16 @@ form.addEventListener("submit", async (e) => {
 
   const noContent = document.querySelector('[data-js="no-content"]');
   if (noContent) {
-    table.removeChild(noContent);
+    table?.removeChild(noContent);
   }
 
   createTableRow(data);
 
-  e.target.reset();
+  e?.target?.reset();
   image.focus();
 });
 
-function createTableRow(data) {
+function createTableRow(data: Car) {
   const elements = [
     { type: "image", value: { src: data.image, alt: data.brandModel } },
     { type: "text", value: data.brandModel },
@@ -84,7 +85,9 @@ function createTableRow(data) {
   tr.dataset.plate = data.plate;
 
   elements.forEach((element) => {
-    const td = elementTypes[element.type](element.value);
+    const t = element.type as "text" | "image" | "color"; // e tomale gambiarra KKKKKKKKKKK
+    const v = element.value as Image & string;
+    const td = elementTypes[t](v);
     tr.appendChild(td);
   });
 
@@ -96,12 +99,12 @@ function createTableRow(data) {
 
   tr.appendChild(button);
 
-  table.appendChild(tr);
+  table?.appendChild(tr);
 }
 
-async function handleDelete(e) {
+async function handleDelete(e: Event) {
   const button = e.target;
-  const plate = button.dataset.plate;
+  const plate = button?.dataset.plate;
 
   const result = await del(url, { plate });
 
@@ -111,10 +114,10 @@ async function handleDelete(e) {
   }
 
   const tr = document.querySelector(`tr[data-plate="${plate}"]`);
-  table.removeChild(tr);
-  button.removeEventListener("click", handleDelete);
+  tr ? table?.removeChild(tr) : {};
+  button?.removeEventListener("click", handleDelete);
 
-  const allTrs = table.querySelector("tr");
+  const allTrs = table?.querySelector("tr");
   if (!allTrs) {
     createNoCarRow();
   }
@@ -124,12 +127,12 @@ function createNoCarRow() {
   const tr = document.createElement("tr");
   const td = document.createElement("td");
   const thsLength = document.querySelectorAll("table th").length;
-  td.setAttribute("colspan", thsLength);
+  td.setAttribute("colspan", thsLength.toString());
   td.textContent = "Nenhum carro encontrado";
 
   tr.dataset.js = "no-content";
   tr.appendChild(td);
-  table.appendChild(tr);
+  table?.appendChild(tr);
 }
 
 async function main() {
