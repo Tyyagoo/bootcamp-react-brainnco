@@ -1,4 +1,5 @@
 import "./style.css";
+import { API } from "./api";
 
 const content = {
   list: document.querySelector("#list"),
@@ -63,5 +64,8 @@ function updateTable(items) {
 }
 
 switchTab("list");
-updateTable([]);
 window.switchTab = switchTab;
+
+API.getAllCars()
+  .then((cars) => updateTable(cars))
+  .catch((error) => alert(error.message));
