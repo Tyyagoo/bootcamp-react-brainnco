@@ -23,4 +23,6 @@ const fetchData = async (params) => {
 export const API = {
   getAllCars: () => fetchData({ method: "get" }),
   createCar: (car) => fetchData({ method: "post", body: JSON.stringify(car) }),
+  deleteCar: (plate) =>
+    fetchData({ method: "delete", body: JSON.stringify({ plate }) }),
 };

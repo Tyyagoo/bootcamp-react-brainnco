@@ -24,26 +24,16 @@ function showSuccessMessage(success) {
   showMessage(success.message, "#0f0");
 }
 
-function switchTab(target) {
-  const header = document.querySelector("header");
-  header.innerHTML = "";
-  for (const [key, value] of Object.entries(content)) {
-    key === target
-      ? value.removeAttribute("hidden")
-      : value.setAttribute("hidden", true);
-  }
-
-  if (!content.list.hasAttribute("hidden")) {
-    API.getAllCars()
-      .then((cars) => updateTable(cars))
-      .catch(showErrorMessage);
-  }
+function getCarsAndUpdateTable() {
+  API.getAllCars()
+    .then((cars) => updateTable(cars))
+    .catch(showErrorMessage);
 }
 
 function createTable() {
   const table = document.createElement("table");
   table.innerHTML =
-    "<thead><th>Imagem</th><th>Modelo</th><th>Ano</th><th>Placa</th><th>Cor</th></thead><tbody></tbody>";
+    "<thead><th>Imagem</th><th>Modelo</th><th>Ano</th><th>Placa</th><th>Cor</th><th></th></thead><tbody></tbody>";
   return table;
 }
 
@@ -71,6 +61,17 @@ function addCarToTable(tbody, car) {
   colorDiv.style.borderRadius = "50%";
   colorDiv.style.backgroundColor = car.color;
   colorCell.appendChild(colorDiv);
+
+  const deleteCell = row.insertCell(-1);
+  const deleteButton = document.createElement("button");
+  deleteButton.textContent = "x";
+  deleteCell.appendChild(deleteButton);
+
+  deleteButton.addEventListener("click", (ev) => {
+    ev.preventDefault();
+    API.deleteCar(car.plate).then(showSuccessMessage, showErrorMessage);
+    getCarsAndUpdateTable();
+  });
 }
 
 function updateTable(items) {
@@ -91,6 +92,18 @@ function updateTable(items) {
   }
 }
 
+function switchTab(target) {
+  const header = document.querySelector("header");
+  header.innerHTML = "";
+  for (const [key, value] of Object.entries(content)) {
+    key === target
+      ? value.removeAttribute("hidden")
+      : value.setAttribute("hidden", true);
+  }
+
+  if (!content.list.hasAttribute("hidden")) getCarsAndUpdateTable();
+}
+
 form.addEventListener(
   "submit",
   (ev) => {
@@ -103,7 +116,6 @@ form.addEventListener(
       plate: f.plate.value,
       color: f.color.value,
     };
-    console.log(car);
     API.createCar(car).then(showSuccessMessage).catch(showErrorMessage);
   },
   false
@@ -112,6 +124,4 @@ form.addEventListener(
 switchTab("list");
 window.switchTab = switchTab;
 
-API.getAllCars()
-  .then((cars) => updateTable(cars))
-  .catch(showErrorMessage);
+getCarsAndUpdateTable();
