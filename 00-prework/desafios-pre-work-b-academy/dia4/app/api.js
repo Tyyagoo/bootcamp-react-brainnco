@@ -1,19 +1,26 @@
 const API_URL = "http://localhost:3333/cars";
 
-const http = {
-  get: async () => await fetch(API_URL),
-};
+async function doFetch(params) {
+  return await fetch(API_URL, {
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+    },
+    ...params,
+  });
+}
 
-const fetchData = async (method, params) => {
-  const response = await http[method](params);
+const fetchData = async (params) => {
+  const response = await doFetch(params);
+  const json = await response.json();
   if (response.status === 200) {
-    const json = await response.json();
     return json;
   } else {
-    return new Error(response.message);
+    throw new Error(json.message);
   }
 };
 
 export const API = {
-  getAllCars: () => fetchData("get"),
+  getAllCars: () => fetchData({ method: "get" }),
+  createCar: (car) => fetchData({ method: "post", body: JSON.stringify(car) }),
 };

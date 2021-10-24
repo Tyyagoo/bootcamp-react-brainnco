@@ -1,16 +1,42 @@
 import "./style.css";
 import { API } from "./api";
 
+const form = document.querySelector("form");
 const content = {
   list: document.querySelector("#list"),
   create: document.querySelector("#create"),
 };
 
+function showMessage(message, color) {
+  const header = document.querySelector("header");
+  header.innerHTML = "";
+  const p = document.createElement("p");
+  p.style.color = color;
+  p.textContent = message;
+  header.appendChild(p);
+}
+
+function showErrorMessage(error) {
+  showMessage(error.message, "#f00");
+}
+
+function showSuccessMessage(success) {
+  showMessage(success.message, "#0f0");
+}
+
 function switchTab(target) {
+  const header = document.querySelector("header");
+  header.innerHTML = "";
   for (const [key, value] of Object.entries(content)) {
     key === target
       ? value.removeAttribute("hidden")
       : value.setAttribute("hidden", true);
+  }
+
+  if (!content.list.hasAttribute("hidden")) {
+    API.getAllCars()
+      .then((cars) => updateTable(cars))
+      .catch(showErrorMessage);
   }
 }
 
@@ -18,14 +44,14 @@ function createTable() {
   const table = document.createElement("table");
   table.innerHTML =
     "<thead><th>Imagem</th><th>Modelo</th><th>Ano</th><th>Placa</th><th>Cor</th></thead><tbody></tbody>";
-  return table.querySelector("tbody");
+  return table;
 }
 
 function addCarToTable(tbody, car) {
   const row = tbody.insertRow(-1);
   const imgCell = row.insertCell(-1);
   const img = document.createElement("img");
-  img.src = car.img;
+  img.src = car.image;
   img.className = "car-image";
   imgCell.appendChild(img);
 
@@ -58,14 +84,34 @@ function updateTable(items) {
     p.textContent = "Nenhum carro encontrado.";
     content.list.appendChild(p);
   } else {
-    const tbody = createTable();
+    const table = createTable();
+    const tbody = table.querySelector("tbody");
     items.forEach((car) => addCarToTable(tbody, car));
+    content.list.appendChild(table);
   }
 }
+
+form.addEventListener(
+  "submit",
+  (ev) => {
+    ev.preventDefault();
+    const f = ev.currentTarget;
+    const car = {
+      image: f.image.value,
+      brandModel: f.brandModel.value,
+      year: f.year.value,
+      plate: f.plate.value,
+      color: f.color.value,
+    };
+    console.log(car);
+    API.createCar(car).then(showSuccessMessage).catch(showErrorMessage);
+  },
+  false
+);
 
 switchTab("list");
 window.switchTab = switchTab;
 
 API.getAllCars()
   .then((cars) => updateTable(cars))
-  .catch((error) => alert(error.message));
+  .catch(showErrorMessage);
