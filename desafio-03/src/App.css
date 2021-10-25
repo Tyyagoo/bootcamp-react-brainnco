@@ -1,0 +1,21 @@
+.App {
+  text-align: center;
+}
+
+input {
+  display: block;
+  margin: auto auto;
+}
+
+.content > * {
+  animation: fadeEffect 0.5s;
+}
+
+@keyframes fadeEffect {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
