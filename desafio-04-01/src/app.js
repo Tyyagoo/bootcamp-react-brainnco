@@ -1,14 +1,16 @@
-import "./styles.css";
-import Layout from "./layout";
-import Header from "./components/header";
-import Menu from "./components/menu";
-import Sidebar from "./components/sidebar";
-import Content from "./components/content";
-import Footer from "./components/footer";
-
-import Title from "./components/title";
-import Button from "./components/button";
+import styled, { createGlobalStyle } from "styled-components";
 import { useState } from "react";
+
+const themes = {
+  primary: {
+    backgroundColor: "#40dd40",
+    color: "#fff",
+  },
+  secondary: {
+    backgroundColor: "#c5336b",
+    color: "#fff",
+  },
+};
 
 const links = [
   {
@@ -118,6 +120,69 @@ const articles = [
   },
 ];
 
+const GlobalStyle = createGlobalStyle`
+  body {
+    height: 100vh;
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+      "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+      sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  #root {
+    height: 100%;
+  }
+`;
+
+const Layout = styled.div`
+  height: 100%;
+  display: grid;
+  grid-template-rows: 70px 50px 1fr 40px;
+  grid-template-columns: 0.3fr 0.7fr;
+`;
+
+const Header = styled.header`
+  background-color: rgb(29, 6, 36);
+  grid-column: 1 / 3;
+  grid-row: 1 / 2;
+  color: white;
+  text-align: center;
+`;
+
+const Menu = styled.nav`
+  background-color: rgb(50, 104, 223);
+  grid-column: 1 / 3;
+  grid-row: 2 / 3;
+`;
+
+const Sidebar = styled.section`
+  background-color: rgb(241, 231, 245);
+  grid-column: 1 / 2;
+  display: flex;
+  flex-direction: column;
+`;
+
+const Content = styled.main`
+  background-color: rgb(50, 223, 102);
+  grid-column: 2 / 3;
+  overflow-y: scroll;
+`;
+
+const Footer = styled.footer`
+  background-color: rgb(168, 50, 223);
+  grid-column: 1 / 3;
+  grid-row: 4 / 5;
+`;
+
+const Title = styled.h1``;
+
+const Button = styled.button`
+  background-color: ${({ theme }) => theme.backgroundColor};
+  color: ${({ theme }) => theme.color};
+`;
+
 function App() {
   const [article, setArticle] = useState(articles[0]);
 
@@ -129,26 +194,39 @@ function App() {
   }
 
   return (
-    <Layout>
-      <Header>
-        <Title>React</Title>
-      </Header>
-      <Menu>
-        {links.map((link, index) => (
-          <a key={index} href={link.url}>
-            {link.name}
-          </a>
-        ))}
-      </Menu>
-      <Sidebar articles={articles} changeArticle={changeArticle} />
-      <Content>
-        <Title>{article.title}</Title>
-        {article.content()}
-        <Button kind="primary">Like</Button>
-        <Button kind="secondary">Do something boring.</Button>
-      </Content>
-      <Footer>Made by someone with a lot of lazy</Footer>
-    </Layout>
+    <>
+      <GlobalStyle />
+      <Layout>
+        <Header>
+          <Title>React</Title>
+        </Header>
+        <Menu>
+          {links.map((link, index) => (
+            <a key={index} href={link.url}>
+              {link.name}
+            </a>
+          ))}
+        </Menu>
+        <Sidebar>
+          {articles.map((article) => (
+            <button
+              key={article.id}
+              href="/"
+              onClick={() => changeArticle(article.id)}
+            >
+              {article.title}
+            </button>
+          ))}
+        </Sidebar>
+        <Content>
+          <Title>{article.title}</Title>
+          {article.content()}
+          <Button theme={themes.primary}>Like</Button>
+          <Button theme={themes.secondary}>Do something boring.</Button>
+        </Content>
+        <Footer>Made by someone with a lot of lazy</Footer>
+      </Layout>
+    </>
   );
 }
 
