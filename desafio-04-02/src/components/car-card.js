@@ -1,4 +1,13 @@
+import styled from "styled-components";
+
 const URL = "http://localhost:3333/cars";
+
+const ColorCircle = styled.div`
+  width: 15px;
+  height: 15px;
+  background-color: ${({ color }) => color};
+  border-radius: 50%;
+`;
 
 function CarCard({ car, onDeleteCar }) {
   function deleteCar() {
@@ -23,10 +32,7 @@ function CarCard({ car, onDeleteCar }) {
       <td>{car.year}</td>
       <td>{car.plate}</td>
       <td>
-        <div
-          className="colorCircle"
-          style={{ backgroundColor: car.color }}
-        ></div>
+        <ColorCircle color={car.color} />
       </td>
       <td>
         <button onClick={deleteCar}>x</button>

@@ -1,8 +1,17 @@
+import styled from "styled-components";
+
 const URL = "http://localhost:3333/cars";
 const headers = {
   Accept: "application/json",
   "Content-Type": "application/json",
 };
+
+const Input = styled.input`
+  input {
+    display: block;
+    margin: auto auto;
+  }
+`;
 
 function CreateCar() {
   function handleSubmit(ev) {
@@ -25,27 +34,27 @@ function CreateCar() {
       <form onSubmit={handleSubmit}>
         <label>
           Imagem (URL):
-          <input id="image" name="image" type="url" />
+          <Input id="image" name="image" type="url" />
         </label>
 
         <label>
           Marca / Modelo:
-          <input id="brandModel" name="brandModel" type="text" />
+          <Input id="brandModel" name="brandModel" type="text" />
         </label>
 
         <label>
           Ano:
-          <input id="year" name="year" type="number" />
+          <Input id="year" name="year" type="number" />
         </label>
 
         <label>
           Placa:
-          <input id="plate" name="plate" type="text" />
+          <Input id="plate" name="plate" type="text" />
         </label>
 
         <label>
           Cor:
-          <input id="color" name="color" type="color" />
+          <Input id="color" name="color" type="color" />
         </label>
 
         <button type="submit">Salvar</button>
